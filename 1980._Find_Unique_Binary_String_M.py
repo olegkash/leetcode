@@ -1,10 +1,8 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
-        num10 = set()
         N = len(nums[0])
 
-        for n in nums:
-            num10.add(int(n, 2))
+        num10 = { int(n, 2) for n in nums }
 
         for i in range(N + 1):
             if i not in num10:
