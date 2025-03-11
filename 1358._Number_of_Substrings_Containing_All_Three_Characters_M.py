@@ -1,16 +1,20 @@
 class Solution:
     def numberOfSubstrings(self, s: str) -> int:
-        # Track last position of a, b, c
-        last_pos = [-1] * 3
-        total = 0
+        result = 0
 
-        for pos in range(len(s)):
-            # Update last position of current character
-            last_pos[ord(s[pos]) - ord("a")] = pos
+        cnt = {
+            "a": 0,
+            "b": 0,
+            "c": 0,
+        }
 
-            # Add count of valid substrings ending at current position
-            # If any character is missing, min will be -1
-            # Else min gives leftmost required character position
-            total += 1 + min(last_pos)
+        left = 0
+        for r in range(len(s)):
+            cnt[s[r]] += 1
 
-        return total
+            while cnt["a"] >= 1 and cnt["b"] >= 1 and cnt["c"] >= 1:
+                result += len(s) - r
+                cnt[s[left]] -= 1
+                left += 1
+        
+        return result 
