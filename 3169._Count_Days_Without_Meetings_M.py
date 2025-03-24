@@ -1,15 +1,22 @@
 from typing import List
 
 class Solution:
-    def countDays(self, days: int, meetings: List[List[int]]) -> int:
-        meetings_sorted = sorted(meetings)
-        result = meetings_sorted[0][0] - 1
-        end = meetings_sorted[0][1]
-        for i in range(1, len(meetings_sorted)):
-            if end < meetings_sorted[i][0]:
-                result += meetings_sorted[i][0] - end - 1
+    def countDays(self, days: int, meetings: list[list[int]]) -> int:
+        free_days = 0
+        latest_end = 0
 
-            end = max(end, meetings_sorted[i][1])        
-        result += days - end
+        # Sort meetings based on starting times
+        meetings.sort()
 
-        return result  
+        for start, end in meetings:
+            # Add current range of days without a meeting
+            if start > latest_end + 1:
+                free_days += start - latest_end - 1
+
+            # Update latest meeting end
+            latest_end = max(latest_end, end)
+
+        # Add all days after the last day of meetings
+        free_days += days - latest_end
+
+        return free_days
