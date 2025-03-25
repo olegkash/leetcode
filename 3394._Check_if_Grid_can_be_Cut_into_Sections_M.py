@@ -2,23 +2,16 @@ from typing import List
 
 class Solution:
     def cuts(self, rec):
-        result = 0
-        cur_end = rec[0][1]
-        for i in range(1, len(rec)):
-            if cur_end <= rec[i][0]:
-                result += 1
-            cur_end = max(cur_end, rec[i][0], rec[i][1])
-        return result > 1
+        count = 0
+        cur_end = -1
+        for start, end in rec:
+            if cur_end <= start:
+                count += 1
+            cur_end = max(cur_end, end)
+        return count > 2
 
     def checkValidCuts(self, n: int, rectangles: List[List[int]]) -> bool:
-        vert = []
-        hor = []
+        x = sorted([ [r[0],r[2]] for r in rectangles])
+        y = sorted([ [r[1],r[3]] for r in rectangles])
 
-        for xs, ys, xe, ye in rectangles:
-            vert.append([ys,ye])
-            hor.append([xs, xe])
-
-        vert.sort()
-        hor.sort()
-
-        return self.cuts(vert) or self.cuts(hor)
+        return self.cuts(x) or self.cuts(y)
