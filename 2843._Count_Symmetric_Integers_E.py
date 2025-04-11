@@ -1,21 +1,12 @@
 class Solution:
     def countSymmetricIntegers(self, low: int, high: int) -> int:
-        result = 0
-        for i in range(low, high+1):
-            num = str(i)
-            len_num = len(num)
-            if len_num % 2:
-                continue
-            sum_left = 0
-            sum_right = 0
-
-            for j in range(len_num//2):
-                sum_left += int(num[j])
-            
-            for j in range(len_num//2, len_num):
-                sum_right += int(num[j])
-            
-            if sum_left == sum_right:
-                result += 1
-        
-        return result
+        res = 0
+        for a in range(low, high + 1):
+            if a < 100 and a % 11 == 0:
+                res += 1
+            if 1000 <= a < 10000:
+                left = a // 1000 + a % 1000 // 100
+                right = a % 100 // 10 + a % 10
+                if left == right:
+                    res += 1
+        return res
